@@ -23,7 +23,7 @@ urlpatterns = [
     path('', views.landing, name='landing'),
     path("users/",include("users.urls")),
     path("student/",include("student.urls")),
-    path("Qrcode/", include("Qrcode.urls")),
+    path("attendance/", include("Qrcode.urls")),
     path("lecturer/", include("lecturer.urls")),
     
 ]
