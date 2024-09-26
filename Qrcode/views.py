@@ -52,17 +52,17 @@ def mark_attendance(request, lecture_id):
             return JsonResponse({'status': 'error', 'message': 'Attendance already marked for this lecture.'})
         
         student_id = student.id
-        student_lat = float(request.GET.get('latitude'))
-        student_lon = float(request.GET.get('longitude'))
+        # student_lat = request.GET.get('latitude')
+        # student_lon = request.GET.get('longitude')
 
         # Log user ID and location for debugging,status='present'
-        print(f"Student ID: {student_id}, Latitude: {student_lat}, Longitude: {student_lon}")
+        # print(f"Student ID: {student_id}, Latitude: {student_lat}, Longitude: {student_lon}")
 
         lecture_lat = lecture.latitude
         lecture_lon = lecture.longitude
 
         # Check if the student is within 100 meters of the lecture location
-        distance = haversine(student_lat, student_lon, lecture_lat, lecture_lon)
+        # distance = haversine(student_lat, student_lon, lecture_lat, lecture_lon)
         now = timezone.now()
 
         # Validate the lecture time and duration
@@ -71,7 +71,7 @@ def mark_attendance(request, lecture_id):
         if now > lecture_end_datetime:
             return JsonResponse({'status': 'error', 'message': 'Lecture has ended. Attendance cannot be marked.'})
 
-        if distance <= 14:  #  km = 100 meters
+        if True:  #  km = 100 meters
             Attendance.objects.create(student=student, lecture=lecture, date=timezone.now().date(),status='present')
             return JsonResponse({'status': 'success', 'message': 'Attendance marked successfully'})
         else:
