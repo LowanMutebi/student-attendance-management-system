@@ -28,7 +28,7 @@ SECRET_KEY = 'django-insecure-zl-hr*cni8kx^h%av3mp=pul+ou3+x+y1t=bhqxrx8n^-dk9hd
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*', 'student-attendance-management-system-ph3v.onrender.com']
 
 
 # Application definition
