@@ -1,0 +1,196 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- page title -->
+    <title>Dashboard</title>
+
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css'%}">
+  <link rel="stylesheet" href="{% static 'css/styles.css'%}">
+</head>
+<body class="bg-pale">
+    
+<!-- ======================nav bar begins=============================== -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-white fixed-top">
+
+        <div class="container py-2">
+
+
+    <!-- ============ Navbar Brand (Logo) ============ -->
+    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <img src="{% static 'images/maklogo.png'%}" width="60px" height="60px" alt="">
+        <h6 class="my-3 text-center">KYAMBOGO UNIVERSITY</h6>
+    </ul>    
+    <!-- ============ Navbar Brand (Logo) ends ============ -->
+
+
+
+
+            <!-- ============= Navbar Toggler (for mobile view)=========== -->
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <!-- ============= Navbar Toggler (for mobile view) ends =========== -->
+    
+            <!-- ================ Navbar Links ================-->
+            <div class="collapse navbar-collapse" id="navbarNav" >
+                <ul class="navbar-nav ms-auto">
+
+                    <!-- welcome statement -->
+                    <li class="nav-item active">
+                        <a class="nav-link">Welcome, <span style="color: rgb(5, 152, 251);">{{ user.username }}!</span></a>
+                    </li>
+
+                    <!-- logout button -->
+                    <li class="nav-item active" >
+                        <a href="{% url 'users:logout' %}" role="button" style="background-color: #e40f41; border-radius: 3px;" class=" px-4 py-2 text-light nav-link text-light">logout</a>
+                    </li>
+                    
+
+                </ul>
+            </div>
+        </div>
+    </nav>
+<!-- =================nav bar ends=============================== -->
+
+
+<!-- =========================== body section begins ===================== -->
+    <section >
+        <!-- action card for the lecturer -->
+        <div class="container" style="margin-top: 8rem;">
+        <!-- <div class="card" style="width: 18rem; color: black;">
+            <ul class="list-group list-group-flush">
+              <li class="list-group-item"> </li>
+              <li class="list-group-item"> </li>
+              <li class="list-group-item"> <a href="{% url 'Qrcode:select_course_unit_lecturer' %}">Generate QR Code for Lecture</a></li>
+              <li class="list-group-item"><a href="{% url 'lecturer:select_course_unit_for_report' %}">Generate attendance report</a></li>
+              
+            </ul>
+          </div> -->
+
+
+          <div class="d-flex align-items-center mt-4  flex-wrap">
+
+            <div class="px-4 py-2 rounded mt-2" style="background-color: rgb(5, 152, 251);">
+
+                <a href="{% url 'lecturer:create_course_unit' %} " class="nav-link">Add course unit</a>
+                
+            </div>
+
+            <div class="bg-white px-4 py-2 rounded mt-2 mx-2">
+
+                <a href="{% url 'lecturer:create_lecture' %}" class="nav-link">Add lecture</a>
+                
+            </div>
+
+            <div class="bg-white px-4 py-2 rounded mt-2" class="nav-link">
+
+                <a href="{% url 'Qrcode:select_course_unit_lecturer' %}" class="nav-link">Generate QR Code for Lecture</a>
+                
+            </div>
+
+            <div class="bg-white px-4 py-2 rounded mt-2 mx-2" class="nav-link">
+
+                <a href="{% url 'lecturer:select_course_unit_for_report' %}" class="nav-link">Generate attendance report</a>
+                
+            </div>
+
+            
+
+          </div>
+
+        </div>
+
+         <!-- ================action card for the lecturer ends =============-->
+
+        <!-- ========this container has the lecturer course units ========-->
+        <div class="container bg-white p-5 rounded mt-4">
+          
+                <p class="title" style="color: rgb(5, 152, 251);">your course units</p>
+            
+        
+                <div class="row">
+
+                    {% if created_courseunits.count == 0 %}
+
+                    <p>No courseunits found</p>
+
+                    {% endif %}
+
+                    {% for created_courseunit in created_courseunits %}
+                        <div class="col-md-4 mb-3">
+                            <div class="card bg-pale border-none">
+                                <div class="card-header border-none py-4" style="background-color: rgb(5, 152, 251);">
+                                    <b ><span >{{ created_courseunit.code }}</span> - {{ created_courseunit.name }}</b>
+                                </div>
+                                <div class="card-body" style="color: rgb(5, 152, 251);">
+                                    <p class="card-title">
+                                        <span>Course:</span> {{ created_courseunit.course }}
+                                    </p>
+                                    <p class=" bg-white p-3 rounded">
+                                        <a href="{% url 'Qrcode:select_lecture' created_courseunit.id %}" class="nav-link text-dark">View Lectures</a>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        
+            
+        
+    </section>
+
+    
+
+<!-- ==================body section ends ======================== -->
+
+<!-- =================== footer begins ==================== -->
+<footer class="">
+    <div class="container  my-3 rounded py-5">
+        <div class="row">
+            <div class="col-md-4 bg-white rounded p-4">
+                <b style="color: rgb(5, 152, 251);">Contact us</b>
+                <br><br>
+                <p>Email: info@kyu.ac.ug</p>
+                <p>Phone: +256 788 132 360</p>
+            </div>
+            <div class="col-md-4 ">
+                <div class="bg-white rounded p-4">
+
+                    <b style="color: rgb(5, 152, 251);">Developers</b>
+                    <br><br>
+                    <ul class="list-unstyled">
+                        <li class="mb-2">MUTEBI LOWAN</li>
+                    </ul>
+
+                </div>
+            </div>
+            <div class="col-md-4 bg-white rounded p-4">
+                <b style="color: rgb(5, 152, 251);">Follow Us</b>
+                <br><br>
+                <div class="social-icons">
+                    <a href="#"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                </div>
+            </div>
+        </div>
+        <br/>
+        <small class="text-secondary text-center">&copy; 2024 KYAMBOGO UNIVERSITY - College of Computing and Information Science. All Rights Reserved.</small>
+    </div>
+</footer>
+
+
+     <!-- js for bootstrap  -->
+
+     <script src="../../static/js/bootstrap.bundle.js"></script>
+
+
+<!-- footer ends -->
+</body>
+</html>

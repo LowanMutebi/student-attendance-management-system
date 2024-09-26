@@ -1,0 +1,305 @@
+{% load static %}
+<!DOCTYPE html>
+<html>  
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.3/dist/Chart.min.js"></script>
+    <!-- page title -->
+    <title>Admin Dashboard</title>
+
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css'%}">
+  <link rel="stylesheet" href="{% static 'css/styles.css'%}">
+</head>
+<body class="bg-pale">
+    
+<!-- ======================nav bar begins=============================== -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-white fixed-top">
+
+        <div class="container py-2">
+
+
+    <!-- ============ Navbar Brand (Logo) ============ -->
+            <a class="navbar-brand ml-auto" href="#">
+                
+                <img src="{% static 'icons/logo2.svg'%}" width="300px" alt="">
+              
+            </a>
+          
+     <!-- ============ Navbar Brand (Logo) ends ============ -->
+
+
+
+
+            <!-- ============= Navbar Toggler (for mobile view)=========== -->
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <!-- ============= Navbar Toggler (for mobile view) ends =========== -->
+    
+            <!-- ================ Navbar Links ================-->
+            <div class="collapse navbar-collapse" id="navbarNav" >
+                <ul class="navbar-nav ms-auto">
+
+                    <!-- welcome statement -->
+                    <li class="nav-item active">
+                        <a class="nav-link">Welcome, <span class="text-green">{{ user.username }}!</span></a>
+                    </li>
+
+                    <span class="nav-link">|</span>
+                    <!-- logout button -->
+                    <li class="nav-item active" >
+                        <form id="logout-form" method="post" action="{% url 'admin:logout' %}">
+                            {% csrf_token %}
+                            <button type="submit" class="nav-link text-light" style="background-color: #e40f41; border-radius: 3px;" class="px-4 py-2 text-light nav-link text-light">logout</button>
+                        </form>
+                    </li>
+                    
+
+                </ul>
+            </div>
+        </div>
+    </nav>
+<!-- =================nav bar ends=============================== -->
+
+
+<!-- =========================== body section begins ===================== -->
+    <section >
+        <!-- action card for the lecturer -->
+        <div class="container" style="margin-top: 8rem;">
+        <!-- <div class="card" style="width: 18rem; color: black;">
+            <ul class="list-group list-group-flush">
+              <li class="list-group-item"> </li>
+              <li class="list-group-item"> </li>
+              <li class="list-group-item"> <a href="{% url 'Qrcode:select_course_unit_lecturer' %}">Generate QR Code for Lecture</a></li>
+              <li class="list-group-item"><a href="{% url 'lecturer:select_course_unit_for_report' %}">Generate attendance report</a></li>
+              
+            </ul>
+          </div> -->
+
+
+          <div class="d-flex align-items-center mt-4  flex-wrap">
+
+            <div class="bg-white px-4 py-2 rounded mt-2 mx-2" >
+
+                <a href="/admin" class="nav-link">Dashboard</a>
+                
+            </div>
+
+            <div class="bg-green px-4 py-2 rounded mt-2">
+
+                <a href="{% url 'users:graphs' %}" class="nav-link">Graphs</a>
+                
+            </div>
+
+            <div class="bg-white px-4 py-2 rounded mt-2" class="nav-link">
+
+                <a href="{% url 'users:shared_reports' %}" class="nav-link">Reports</a>
+                
+            </div>
+
+            
+
+          </div>
+
+        </div>
+
+         <!-- ================action card for the lecturer ends =============-->
+
+        <!-- ========this container has the site administration ========-->
+         {%if plot == True%}
+            <div class="container bg-white p-5 rounded mt-4">
+                    
+                <p class="title text-green"> Graph of Attendance</p>
+
+                <br><br>
+        
+                <div class="row">
+                    <div id="container" style="width: 45%;">
+                        <canvas id="pie-chart"></canvas>
+                    </div>
+                    <div id="container" style="width: 55%;">
+                    <canvas id="bar-chart"></canvas>
+                    <div>
+                </div>
+
+            </div>
+         {%else%}
+         {%if course_unit == True%}
+            <div class="container bg-white p-5 rounded mt-4">
+                
+                <p class="title" style="color: rgb(5, 152, 251);">Select Course Unit</p>
+
+                <br><br>
+                
+                <form class="d-flex" action="{% url 'users:search' %}">
+                    <input type="text" name="search" class="form-control py-3" placeholder="Search for course unit or lecturer name.." value="{{request.GET.title}}">
+                    <button type="submit" value="Search"  class="btn btn-primary ms-4" style="background-color: green; width: 150px;"> Search </button>
+                </form>
+            
+                <br><br>
+        
+                <div class="row">
+                    {% for course in course_units %}
+                        <div class="col-md-4 mb-3">
+                            <div class="card bg-pale border-none">
+                                <div class="card-header bg-green border-none py-4">
+                                    <a href="lectures_in_unit/{{course.id}}" class="nav-link text-dark"><b>{{ course }}</b></a>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+
+            </div>
+            {%else%}
+            <div class="container bg-white p-5 rounded mt-4">
+            
+                <p class="title text-green">Select Lecture</p>
+
+                <br><br>
+            
+                <br><br>
+        
+                <div class="row">
+                    {% for course in course_units %}
+                        <div class="col-md-4 mb-3">
+                            <div class="card bg-pale border-none">
+                                <div class="card-header bg-green border-none py-4">
+                                    <a href="../plot_lecture/{{course}}" class="nav-link text-dark"><b>{{ course }}</b></a>
+                                </div>
+                                <div class="card-body text-green">
+                                    <p class="card-title">
+                                        <span>Duration:</span> {{ course.duration }} hrs
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+
+            </div>
+            {%endif%}
+            {%endif%}
+        
+    </section>
+
+    
+
+    <!-- ==================body section ends ======================== -->
+
+<!-- =================== footer begins ==================== -->
+<footer class="">
+    <div class="container  my-3 rounded py-5">
+        <div class="row">
+            <div class="col-md-4 bg-white rounded p-4">
+                <b class="text-green">Contact us</b>
+                <br><br>
+                <p>Email: info@mak.ac.ug</p>
+                <p>Phone: +256 414 533 332</p>
+            </div>
+            <div class="col-md-4 ">
+                <div class="bg-white rounded p-4">
+
+                    <b class="text-green">Developers</b>
+                    <br><br>
+                    <ul class="list-unstyled">
+                    <li class="mb-2">Jemimah</li>
+                    <li class="mb-2">Mariam</li>
+                    <li class="mb-2">Ashley</li>
+                    <li class="mb-2">Apollo</li>
+                    <li class="mb-2">Hope</li>
+                    </ul>
+
+                </div>
+            </div>
+            <div class="col-md-4 bg-white rounded p-4">
+                <b class="text-green">Follow Us</b>
+                <br><br>
+                <div class="social-icons">
+                    <a href="#"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                </div>
+            </div>
+        </div>
+        <br/>
+        <small class="text-secondary text-center">&copy; 2024 KYAMBOGO UNIVERSITY - College of Computing and Information Science. All Rights Reserved.</small>
+    </div>
+</footer>
+
+
+     <!-- js for bootstrap  -->
+
+     <script src="../../static/js/bootstrap.bundle.js"></script>
+     <script>
+        function searchFunction() {
+            var input, filter, ul, li, a, i, txtValue;
+            input = document.getElementById('searchInput');
+            filter = input.value.toUpperCase();
+            ul = document.getElementById('myUL');
+            li = ul.getElementsByTagName('li');
+            for (i = 0; i < li.length; i++) {
+                a = li[i].getElementsByTagName('a')[0];
+                txtValue = a.textContent || a.innerText;
+                if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                    li[i].style.display = '';
+                } else {
+                    li[i].style.display = 'none';
+                }
+            }
+        }
+        </script>
+
+        <script>
+
+            var pie_config = {
+              type: 'pie',
+              data: {
+                datasets: [{
+                  data: {{ data|safe }},
+                  backgroundColor: [
+                    '#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0', '#FF9F40'
+                  ],
+                  label: 'Attendance'
+                }],
+                labels: {{ labels|safe }}
+              },
+              options: {
+                responsive: true
+              }
+            };
+
+            var bar_config = {
+                type: 'bar',
+                data: {
+                  datasets: [{
+                    data: {{ data|safe }},
+                    backgroundColor: [
+                      '#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0', '#FF9F40'
+                    ],
+                    label: 'Attendance'
+                  }],
+                  labels: {{ labels|safe }}
+                },
+                options: {
+                  responsive: true
+                }
+              };
+        
+            window.onload = function() {
+              var ctx = document.getElementById('pie-chart').getContext('2d');
+              var btx = document.getElementById('bar-chart').getContext('2d');
+              window.myPie = new Chart(ctx, pie_config);
+              window.myPie = new Chart(btx, bar_config);
+            };
+        
+          </script>
+
+          
+
+
+<!-- footer ends -->
+</body>
+</html>

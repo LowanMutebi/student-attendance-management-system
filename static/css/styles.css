@@ -1,0 +1,98 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap');
+
+:root{
+    --dark: #1D1A2F;
+    --pale: #F2F5F6;
+    --green: #1FCF6B;
+    --white: white;
+}
+.fullpage{
+    height: 100vh;
+    width: 100vw;
+}
+.title{
+    font-size: 24px;
+    font-weight: bold;
+}
+*{
+    font-size: 13px;
+    font-family: "Inter";
+}
+.bg-image{
+    background: linear-gradient(120deg, #12101dd8, #161323), url('../images/landing.png');
+    background-position: center;
+    background-size: cover;
+}
+.bg-pale{
+    background-color: var(--pale);
+}
+.text-green{
+    color: var(--green);
+}
+.bg-white{
+    background-color: white;
+}
+.overflow-hidden{
+    overflow: hidden;
+}
+
+.image-container{
+    width: 500px;
+    height: 400px;
+    overflow: hidden;
+}
+
+.image-container img{
+    height: 100%;
+    object-fit: cover;
+}
+
+.pt-10{
+    padding-top: 10rem;
+}
+
+::-webkit-scrollbar{
+    width: 5px;
+}
+.mt-10{
+    margin-top: 8rem;
+}
+.bg-green{
+    background-color: var(--green);
+    color: var(--pale);
+    border: none;
+}
+
+.border-none{
+    border: none;
+}
+
+.w-40{
+    width: 35vw;
+    padding: 2rem;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.welcome{
+    font-size: 2.5rem;
+    font-weight: lighter;
+}
+
+.bold{
+    font-weight: 900;
+}
+
+
+.w-xs-100{
+  width: auto;  
+}
+
+@media (max-width: 768px){
+    .w-40{
+        width: 95vw;
+    }
+    .w-xs-100{
+    width: 100%;
+    }
+}

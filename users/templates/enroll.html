@@ -1,0 +1,33 @@
+
+
+{% extends 'navbar.html' %}
+{% load static %}
+{% block content %}
+{% load crispy_forms_tags %}
+
+<div>
+
+    <div class="container centered-card mt-10">
+
+    <div class="card border-none w-40" >
+
+        <div class="card-body">
+
+          <h5 class="card-title my-2 text-center" style="color: rgb(5, 152, 251);">select a course unit to enroll</h5>
+
+          <br>
+
+          <form method="post" class="form">
+            {% csrf_token %}
+            {{ form|crispy }}
+            <button type="submit" class="btn btn-success py-2 w-100 mb-3" style="background-color: rgb(5, 152, 251);">Enroll</button>
+          </form>
+          
+        </div>
+      </div>
+    </div>
+
+</div>
+{% endblock content %}
+
+

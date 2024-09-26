@@ -1,0 +1,176 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Dashboard</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css'%}">
+  <link rel="stylesheet" href="{% static 'css/styles.css'%}">
+
+</head>
+<body class="bg-pale">
+
+<div class="bg-image"></div>
+
+<nav class="navbar navbar-expand-lg navbar-light bg-white fixed-top">
+
+    <div class="container py-2">
+
+
+<!-- ============ Navbar Brand (Logo) ============ -->
+<ul class="navbar-nav me-auto mb-2 mb-lg-0">
+    <img src="{% static 'images/maklogo.png'%}" width="60px" height="60px" alt="">
+    <h6 class="my-3 text-center">KYAMBOGO UNIVERSITY</h6>
+</ul>
+      
+ <!-- ============ Navbar Brand (Logo) ends ============ -->
+
+
+
+
+        <!-- ============= Navbar Toggler (for mobile view)=========== -->
+        <button class="navbar-toggler " type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <!-- ============= Navbar Toggler (for mobile view) ends =========== -->
+
+        <!-- ================ Navbar Links ================-->
+        <div class="collapse navbar-collapse my-2" id="navbarNav" >
+            <ul class="navbar-nav ms-auto">
+
+                <!-- welcome statement -->
+                <li class="nav-item active" style="margin-right: 10px;">
+                    <a class="nav-link">Welcome, <span style="color: rgb(5, 152, 251);">{{ user.sFirstName }}!</span></a>
+                </li>
+                
+                <!-- logout button -->
+                <li class="nav-item active" >
+                    <a href="{% url 'users:logout' %}" role="button" style="background-color: #e40f41; border-radius: 3px;" class=" px-4 py-2 text-light nav-link text-light">logout</a>
+                </li>
+
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<section class="mt-10">
+    <div class="container">
+
+        <div class="card border-none p-5">
+
+            <div class="card-body">
+
+                <span class="welcome">Hello <span class="welcome bold" style="color: rgb(5, 152, 251);">{{ user.sFirstName }},</span></span>
+
+                <p class="mt-2 mb-4">what would you like to do today?</p> 
+
+                <a  href="{% url 'Qrcode:select_course_unit' %}" style="margin-right: 10px;" class="btn btn-light border-none px-4 py-3 bg-pale my-2 w-xs-100">
+
+                    <img src="{% static 'icons/list.svg'%}" width="20px" style="margin-right: 10px;"/>
+                    
+                    Record Attendance
+                    
+                </a>
+                
+                <a href="{% url 'student:enroll' %}" class="btn btn-light border-none px-4 py-3 bg-pale w-xs-100 my-2">
+                    
+                    <img src="{% static 'icons/book.svg'%}" style="margin-right: 10px;" width="15px"/>
+                    
+                    
+                    Enroll in a Course
+                
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Separate container for the second card -->
+    <div>
+        <div class="container my-4">
+            <u>Your enrolled units</u>
+        </div>
+
+        
+        <div class="container">
+            <div class="row bg-white p-5 rounded">
+
+                {% if enrolled_units.count == 0 %}
+
+                <p>No courseunits found</p>
+
+                {% endif %}
+
+                {% for enrolled_unit in enrolled_units %}
+                    <div class="col-md-4 mt-2 mb-3">
+                        <div class="card border-none bg-pale" >
+                            <div class="card-header p-3" style="background-color: rgb(5, 152, 251);">
+                                <b>{{ enrolled_unit.course_unit }}</b>
+                            </div>
+                            <div class="card-body text-success">
+                                <p class="card-title">
+                                    
+                                </p>
+                                <p class="card-text">
+                                    <a href="{% url 'Qrcode:select_lecture' enrolled_unit.course_unit.id  %}" class="nav-link text-dark">view lectures</a>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- =================== footer begins ==================== -->
+<footer class="">
+    <div class="container  my-3 rounded py-5">
+        <div class="row">
+            <div class="col-md-4 mt-2 bg-white rounded p-4">
+                <b style="color: rgb(5, 152, 251);">Contact us</b>
+                <br><br>
+                <p>Email: info@kyu.ac.ug</p>
+                  <p>Phone: +256 788 132 360</p>
+            </div>
+            <div class="col-md-4 mt-2 ">
+                <div class="bg-white rounded p-4">
+
+                    <b cstyle="color: rgb(5, 152, 251);">Developer</b>
+                    <br><br>
+                    <ul class="list-unstyled">
+                        <li class="mb-2">MUTEBI LOWAN</li>
+                    </ul>
+
+                </div>
+            </div>
+            <div class="col-md-4 mt-2 bg-white rounded p-4">
+                <b style="color: rgb(5, 152, 251);">Follow Us</b>
+                <br><br>
+                <div class="social-icons">
+                    <a href="#"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                </div>
+            </div>
+        </div>
+        <br/>
+        <small class="text-secondary text-center">&copy; 2024 KYAMBOGO UNIVERSITY - College of Computing and Information Science. All Rights Reserved.</small>
+    </div>
+</footer>
+
+<!-- Bootstrap JS and dependencies -->
+
+     <!-- js for bootstrap  -->
+
+     <script src="../../static/js/bootstrap.bundle.js"></script>
+
+</body>
+</html>

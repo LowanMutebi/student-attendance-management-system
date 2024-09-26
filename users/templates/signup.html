@@ -1,0 +1,223 @@
+{% load static %}
+{% load crispy_forms_tags %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign up</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css'%}">
+    <link rel="stylesheet" href="{% static 'css/styles.css'%}">
+
+</head>
+
+<body class="bg-pale">
+
+
+    <nav class="navbar navbar-expand-lg bg-white shadow-sm fixed-top">
+        <div class="container-fluid px-5 py-3">
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText"
+                aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarText">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <img src="{% static 'images/maklogo.png'%}" width="60px" height="60px" alt="">
+                    <h6 class="my-3 text-center">KYAMBOGO UNIVERSITY</h6>
+                </ul>
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item">
+                        <a class="nav-link"  style="color: rgb(5, 152, 251);" href="{% url 'users:landing' %}">Back to home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'users:login' %}">Login</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container-fluid"> -->
+    <!-- Navbar Brand (Logo) -->
+    <!-- <img class="mb-5" src="{% static 'icons/logo2.svg'%}" width="300px" alt=""> -->
+
+    <!-- Navbar Links -->
+    <!-- <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'users:landing' %}">Back to home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'users:login' %}">Login</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav> -->
+
+    <section>
+        <div class="container  d-flex justify-content-center">
+            <div class="card px-5 border-none" style="width: 50rem; margin-top: 10rem;">
+                <div class="card-body">
+                    <h5 class="card-title title my-3 text-center"  style="color: rgb(10, 157, 255);">Sign Up as {{ user_type }}</h5>
+                    <form method="post">
+                        {% csrf_token %}
+                        {{ form|crispy }}
+                        <div>
+                        <span id="email-error" style="color:red;"></span>
+                        <div>
+                        <div>
+                            <span id="password-error" style="color:red;"></span>
+                        </div>
+                        <label class="my-3">
+                            <input type="checkbox" id="togglePasswordVisibility"> Show Password
+                        </label>
+                        <button class="btn btn-success w-100 py-2 mb-5"  style="background-color: rgb(10, 157, 255);" type="submit">Sign Up</button>
+                    </form>
+                    <p class="d-flex align-items-center flex-wrap">Already have an account? <a class="nav-link" style="color: rgb(10, 157, 255);" href="{% url 'users:login' %}">&nbsp;Login here</a></p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="">
+        <div class="container  my-3 rounded py-5">
+            <div class="row">
+                <div class="col-md-4 bg-white rounded p-4">
+                    <b style="color: rgb(10, 157, 255);">Contact us</b>
+                    <br><br>
+                    <p>Email: info@kyu.ac.ug</p>
+                    <p>Phone: +256 788 132 360</p>
+                </div>
+                <div class="col-md-4 ">
+                    <div class="bg-white rounded p-4">
+
+                        <b style="color: rgb(10, 157, 255);">Links</b>
+                        <br><br>
+                        <ul class="list-unstyled">
+                            <li><a href="#" class="nav-link mb-3">Home</a></li>
+                            <li><a href="#" class="nav-link mb-3">About Us</a></li>
+                            <li><a href="#" class="nav-link mb-3">Services</a></li>
+                            <li><a href="#" class="nav-link mb-3">Contact</a></li>
+                        </ul>
+
+                    </div>
+                </div>
+                <div class="col-md-4 bg-white rounded p-4">
+                    <b style="color: rgb(10, 157, 255);">Follow Us</b>
+                    <br><br>
+                    <div class="social-icons">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                    </div>
+                </div>
+            </div>
+            <br/>
+            <small class="text-secondary text-center">&copy; 2024 KYAMBOGO UNIVERSITY - College of Computing and Information Science. All Rights Reserved.</small>
+        </div>
+    </footer>
+
+    <!-- js for bootstrap  -->
+
+    <script src="../../static/js/bootstrap.bundle.js"></script>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", ()=>{
+            const middleName = document.getElementById("id_sMiddleName")
+
+            middleName?.removeAttribute('required');
+
+        })
+
+
+        document.addEventListener('DOMContentLoaded', function() {
+        var checkbox = document.getElementById('togglePasswordVisibility');
+        
+        checkbox.addEventListener('change', function() {
+            var passwordFields = document.querySelectorAll('input[type="password"]');
+            
+            if (checkbox.checked) {
+            passwordFields.forEach(function(field) {
+                field.type = 'text';
+            });
+            } else {
+            passwordFields.forEach(function(field) {
+                field.type = 'password';
+            });
+            }
+
+            if(checkbox.unchecked){
+                passwordFields.forEach(function(field) {
+                    field.type = 'password';
+                });  
+            }
+        });
+        });
+
+
+        document.addEventListener('DOMContentLoaded', function() {
+            var emailInput = document.getElementById('email-input');
+            emailInput.addEventListener('input', function() {
+                var email = emailInput.value;
+                var emailError = document.getElementById('email-error');
+                if (email && !validateEmail(email)) {
+                    emailInput.classList.add('is-invalid');
+                    emailError.textContent = 'Please enter a valid email address.';
+                } else {
+                    emailInput.classList.remove('is-invalid');
+                    emailError.textContent = '';
+                }
+            });
+
+            function validateEmail(email) {
+                var re = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
+                return re.test(email);
+            }
+        });
+
+        document.addEventListener('DOMContentLoaded', function() {
+            var passwordInput = document.getElementById('id_password1');
+            var confirmPasswordInput = document.getElementById('id_password2');
+
+            passwordInput.addEventListener('input', function() {
+                validatePassword();
+            });
+
+            confirmPasswordInput.addEventListener('input', function() {
+                validatePassword();
+            });
+
+
+            function validatePassword() {
+                var password = passwordInput.value;
+                var confirmPassword = confirmPasswordInput.value;
+                var passwordError = document.getElementById('password-error');
+
+                var errors = [];
+                if (password.length < 8) {
+                    errors.push('Your password must contain at least 8 characters.');
+                }
+                if (/^\d+$/.test(password)) {
+                    errors.push('Your password can’t be entirely numeric.');
+                }
+                if (password !== confirmPassword) {
+                    errors.push("Passwords don't match.");
+                }
+
+                if (errors.length > 0) {
+                    passwordError.textContent = errors.join(' ');
+                } else {
+                    passwordError.textContent = '';
+                }
+            }
+        });
+
+
+</script>
+</body>
+
+</html>

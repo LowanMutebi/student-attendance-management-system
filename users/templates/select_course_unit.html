@@ -1,0 +1,35 @@
+{% extends 'navbar.html' %}
+{% load static %}
+{% block content %}
+
+<div class="container mt-10">
+    <div class="container" >
+        <p>Select course unit</p>
+    </div>
+    
+    <div class="row bg-white rounded p-5">
+
+        {% if enrolled_units.count == 0%}
+
+        <p>No results found</p>
+
+        {% endif %}
+
+        {% for enrolled_unit in enrolled_units %}
+            <div class="col-md-4 mb-3">
+                <div class="card bg-pale border-none">
+                    <div class="card-header py-3" style="background-color: rgb(5, 152, 251);">
+                        <b>{{ enrolled_unit.course_unit }}</b>
+                    </div>
+                    <div class="card-body text-success">
+                        <p class="card-title">
+                            <a class="nav-link text-dark" href="{% url 'Qrcode:select_lecture' enrolled_unit.course_unit.id  %}">View lectures</a>
+                        </p>
+                        <p class="card-text"></p>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock content %}

@@ -1,0 +1,46 @@
+{% extends 'navbar.html' %}
+{% load static %}
+{% block content %}
+<div class="container mt-10">
+    <h5 style="color: rgb(5, 152, 251);">Select Lecture for {{ course_unit.name }}</h5>
+
+
+    <div class="row bg-white p-5 mt-3">
+
+        {%if lectures.count == 0 %}
+
+        <p>No lectures found</p>
+
+        {% endif %}
+
+        {% for lecture in lectures %}
+            <div class="col-md-4 mb-3 d-flex align-items-stretch">
+                <div class="card border-none bg-pale w-100">
+                    <div class="card-header py-3" style="background-color: rgb(5, 152, 251);">
+                        <b>{{ lecture.title }}</b>
+                    </div>
+                    <div class="card-body text-success card-body-equal-height">
+
+                        
+                        <p class="card-title">
+                            {% if user.is_lecturer %}
+                                <a class="nav-link text-dark" href="{% url 'Qrcode:generate_qr_code' lecture.id %}">
+                                    
+                                    <img style="margin-right: 10px;" height="25px" src="{% static 'icons/qrcode.svg' %}"/>
+                                    Generate QR Code</a>
+
+                                    {% elif user.is_student %}
+
+                                    <a href="{% url 'Qrcode:scan_qr_code' course_unit.id %}" class="nav-link text-dark">
+                                    <img style="margin-right: 10px;" height="25px" src="{% static 'icons/qrcode.svg' %}"/>
+                                    Scan QR Code</a>
+                            {% endif %}
+                        </p>
+                        <p class="card-text"></p>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock content %}

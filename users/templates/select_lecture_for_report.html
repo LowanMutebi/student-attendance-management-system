@@ -1,0 +1,29 @@
+{% extends 'navbar.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+    {% block content %}
+
+
+    <div class="container mt-10">
+        <div class="card text-center border-none w-40">
+            <div class="card-body">
+                <h5 class="card-title">Select Lecture for {{ course_unit.name }}</h5>
+                <form method="post">
+                    {% csrf_token %}
+                    <div class="form-group my-4">
+                        
+                        <select class="form-control" id="lecture" name="lecture">
+                            {% for lecture in lectures %}
+                            <option value="{{ lecture.id }}">{{ lecture.title }} - {{ lecture.date }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <button type="submit" class="btn btn-success btn btn-success bg-green py-2 w-100">Generate Report</button>
+                </form>
+                
+            </div>
+        </div>
+    </div>
+
+
+       {% endblock content %}

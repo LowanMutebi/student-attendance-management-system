@@ -1,0 +1,104 @@
+{% load static %} 
+{% load crispy_forms_tags %} 
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login</title>
+     <!-- Bootstrap CSS -->
+     <link rel="stylesheet" href="{% static 'css/bootstrap.min.css'%}">
+     <link rel="stylesheet" href="{% static 'css/styles.css'%}">
+  </head>
+
+  <body class="bg-pale">
+    <nav class="navbar navbar-expand-lg bg-white shadow-sm fixed-top">
+      <div class="container-fluid px-5 py-3">
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText"
+              aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+              <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarText">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <img src="{% static 'images/maklogo.png'%}" width="60px" height="60px" alt="">
+                <h6 class="my-3 text-center">KYAMBOGO UNIVERSITY</h6>
+            </ul>
+              <ul class="navbar-nav ml-auto">
+                  <li class="nav-item">
+                      <a class="nav-link" style="color: rgb(5, 152, 251);" href="{% url 'users:landing' %}">Back to home</a>
+                  </li>
+                  <li class="nav-item">
+                      <a class="nav-link" href="{% url 'users:login' %}">Login</a>
+                  </li>
+              </ul>
+          </div>
+      </div>
+  </nav>
+
+    <div class="" ></div>
+
+    <div class="container centered-card">
+      <div class="card border-none w-40" style=" margin-top: 10rem">
+        <div class="card-body" >
+          <h5 class="card-title my-4 text-center" style="color: rgb(5, 152, 251);">Hello, welcome back!</h5>
+          <form method="post">
+            {% csrf_token %} {{ form|crispy }} 
+            <button type="submit" class="btn btn-success w-100 py-2 my-3" style="background-color: rgb(10, 157, 255);">Login</button>
+          </form>
+          <p><a href="{% url 'users:password_reset' %}" class="nav-link text-secondary my-2">Forgot Password?</a></p>
+          <p class="d-flex align-items-center">
+            First time user? Sign up
+            <a class="nav-link" style="color: rgb(5, 152, 251);" href="{% url 'users:landing' %}">&nbsp;here</a>
+          </p>
+
+
+    <footer class="">
+      <div class="container  my-3 rounded py-5">
+          <div class="row">
+              <div class="col-md-4 bg-white rounded p-4">
+                  <b style="color: rgb(5, 152, 251);">Contact us</b>
+                  <br><br>
+                  <p>Email: info@kyu.ac.ug</p>
+                  <p>Phone: +256 788 132 360</p>
+              </div>
+              <div class="col-md-4 ">
+                  <div class="bg-white rounded p-4">
+
+                      <b style="color: rgb(5, 152, 251);">Links</b>
+                      <br><br>
+                      <ul class="list-unstyled">
+                          <li><a href="#" class="nav-link mb-3">Home</a></li>
+                          <li><a href="#" class="nav-link mb-3">About Us</a></li>
+                          <li><a href="#" class="nav-link mb-3">Services</a></li>
+                          <li><a href="#" class="nav-link mb-3">Contact</a></li>
+                      </ul>
+
+                  </div>
+              </div>
+              <div class="col-md-4 bg-white rounded p-4">
+                  <b style="color: rgb(5, 152, 251);">Follow Us</b>
+                  <br><br>
+                  <div class="social-icons">
+                      <a href="#"><i class="fab fa-facebook-f"></i></a>
+                      <a href="#"><i class="fab fa-twitter"></i></a>
+                      <a href="#"><i class="fab fa-instagram"></i></a>
+                  </div>
+              </div>
+          </div>
+          <br/>
+          <small class="text-secondary text-center">&copy; 2024 KYAMBOGO UNIVERSITY - College of Computing and Information Science. All Rights Reserved.</small>
+      </div>
+  </footer>
+    <!-- Bootstrap JS and dependencies -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+
+     <!-- js for bootstrap  -->
+
+     <script src="../../static/js/bootstrap.bundle.js"></script>
+
+  </body>
+</html>

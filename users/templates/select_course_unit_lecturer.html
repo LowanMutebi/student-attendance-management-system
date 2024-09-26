@@ -1,0 +1,28 @@
+{% extends 'navbar.html' %}
+{% load static %}
+{% block content %}
+
+<div class="container mt-10">
+    <div class="container" >
+        <h5 style="color: rgb(5, 152, 251);">Select course unit</h5>
+    </div>
+    
+    <div class="row">
+        {% for unit in created_units %}
+            <div class="col-md-4 mb-3">
+                <div class="card border-none bg-white">
+                    <div class="card-header py-4" style="background-color: rgb(5, 152, 251);">
+                        <b>{{ unit.name }}</b>
+                    </div>
+                    <div class="card-body text-dark">
+                        <p class="card-title bg-pale p-3">
+                            <a href="{% url 'Qrcode:select_lecture' unit.id  %}" class="nav-link">View lectures</a>
+                        </p>
+                        <p class="card-text"></p>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock content %}

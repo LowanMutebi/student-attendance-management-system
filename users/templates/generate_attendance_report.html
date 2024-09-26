@@ -1,0 +1,76 @@
+{% extends 'navbar.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+    {% block content %}
+    
+    <div class="container mt-10" >
+        <u>Attendance Report for {{ lecture.title }} on {{ lecture.date }}</u>
+        <br><br>            
+        <input type="text" id="searchInput" class="form-control py-3" placeholder="Search for students.." onkeyup="searchFunction()">
+
+        <div>
+            <a href= '../../generate_attendance_report_pdf/{{lecture.id}}' class="btn btn-dark border-none my-4">Download PDF</a>
+            <a href='../../../users/share_report/{{lecture.id}}' class="btn btn-primary border-none my-4">Share Report</a>
+        </div>
+        <br/>
+        {% if report.count == 0 %}
+
+        <p class="my-3">No records found</p>
+
+        {% else %}
+
+        <table class="table table-striped" id="attendanceTable">
+            <thead>
+                <tr>
+                    <th>Student</th>
+                    <th>Registration Number</th>
+                    <th>Student Number</th>
+                    <th>Status</th>      
+                </tr>
+            </thead>
+            <tbody>
+                {% for record in report %}
+                <tr>
+                    <td>{{ record.full_name }}</td>
+                    <td>{{ record.regNo }}</td>
+                    <td>{{ record.sNo }}</td>
+                    <td>{{ record.status }}</td>
+                    
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        {% endif %}
+        
+    </div>
+    <script>
+        function searchFunction() {
+            var input, filter, table, tr, td, i, j, txtValue;
+            input = document.getElementById("searchInput");
+            filter = input.value.toUpperCase();
+            table = document.getElementById("attendanceTable");
+            
+            if (!table) {
+                console.error("Table not found");
+                return;
+            }
+            
+            tr = table.getElementsByTagName("tr");
+            
+            for (i = 1; i < tr.length; i++) {
+                tr[i].style.display = "none";
+                td = tr[i].getElementsByTagName("td");
+                for (j = 0; j < td.length; j++) {
+                    if (td[j]) {
+                        txtValue = td[j].textContent || td[j].innerText;
+                        if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                            tr[i].style.display = "";
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+        </script>
+    {% endblock content %}
